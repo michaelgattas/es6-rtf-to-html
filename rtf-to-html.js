@@ -1,6 +1,3 @@
-'use strict'
-module.exports = rtfToHTML
-
 function outputTemplate (doc, defaults, content) {
   return `<!DOCTYPE html>
 <html>
@@ -24,16 +21,16 @@ function outputTemplate (doc, defaults, content) {
 `
 }
 
-function rtfToHTML (doc, options) {
+export default function rtfToHTML (doc, options) {
   const defaults = Object.assign({
-    font: doc.style.font || {name: 'Times', family: 'roman'},
+    font: doc.style.font || { name: 'Times', family: 'roman' },
     fontSize: doc.style.fontSize || 24,
     bold: false,
     italic: false,
     underline: false,
     strikethrough: false,
-    foreground: {red: 0, blue: 0, green: 0},
-    background: {red: 255, blue: 255, green: 255},
+    foreground: { red: 0, blue: 0, green: 0 },
+    background: { red: 255, blue: 255, green: 255 },
     firstLineIndent: doc.style.firstLineIndent || 0,
     indent: 0,
     align: 'left',
@@ -44,7 +41,7 @@ function rtfToHTML (doc, options) {
     template: outputTemplate
   }, options || {})
   const content = doc.content
-    .map(para => renderPara(para.content ? para : {content: [para], style: {}}, defaults))
+    .map(para => renderPara(para.content ? para : { content: [para], style: {} }, defaults))
     .filter(html => html != null)
     .join(defaults.paraBreaks)
   return defaults.template(doc, defaults, content)
@@ -125,7 +122,7 @@ function styleTags (chunk, defaults) {
       close = '</sup>' + close
     }
   }
-  return {open, close}
+  return { open, close }
 }
 
 function renderPara (para, defaults) {
@@ -133,7 +130,7 @@ function renderPara (para, defaults) {
   const style = CSS(para, defaults)
   const tags = styleTags(para, defaults)
   const pdefaults = Object.assign({}, defaults)
-  for (let item of Object.keys(para.style)) {
+  for (const item of Object.keys(para.style)) {
     if (para.style[item] != null) pdefaults[item] = para.style[item]
   }
   const paraTag = defaults.paraTag

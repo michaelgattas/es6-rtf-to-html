@@ -1,10 +1,6 @@
-'use strict'
-const parse = require('rtf-parser')
-const rtfToHTML = require('./rtf-to-html.js')
-
-module.exports = asStream
-module.exports.fromStream = fromStream
-module.exports.fromString = fromString
+// 'use strict'
+import parse from 'rtf-parser'
+import rtfToHTML from './rtf-to-html.js'
 
 function asStream (opts, cb) {
   if (arguments.length === 1) {
@@ -40,3 +36,5 @@ function htmlifyresult (opts, cb) {
     }
   }
 }
+
+export { fromString, fromStream, htmlifyresult, asStream }
